@@ -1,0 +1,44 @@
+<form [formGroup]="currencyForm" (ngSubmit)="onSubmit(currencyForm.value)">
+	<mat-form-field appearance="fill">
+		<mat-label>Валюта</mat-label>
+		<mat-select [(ngModel)]="selectedValue" formControlName="currency">
+	  		<mat-option *ngFor="let curr of currs" [value]="curr">
+	    		{{ curr.code }}
+	  		</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<br>
+	<mat-form-field appearance="fill">
+  		<mat-label>Первая дата</mat-label>
+  		<input matInput [matDatepicker]="picker1" formControlName="date1">
+  		<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  		<mat-datepicker #picker1></mat-datepicker>
+	</mat-form-field>
+	<br>
+	<mat-form-field appearance="fill">
+  		<mat-label>Вторая дата</mat-label>
+  		<input matInput [matDatepicker]="picker2" formControlName="date2">
+  		<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  		<mat-datepicker #picker2></mat-datepicker>
+	</mat-form-field>
+	<br>
+	<button mat-raised-button type="submit" [disabled]="currencyForm.invalid">Отправить</button>
+</form>
+<br>
+<mat-card *ngIf="done" class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{ card?.code }}</mat-card-title>
+    <mat-card-subtitle>{{ card?.name }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      Курс валюты за {{ card?.date1 }}: <strong>{{ curr1 }}</strong>
+    </p>
+    <p>
+      Курс валюты за {{ card?.date2 }}: <strong>{{ curr2 }}</strong>
+    </p>
+        <div *ngIf="raise; then thenBlock else elseBlock"></div>
+      	<ng-template #thenBlock><p>Разница: <strong style="color: green">{{ diff }}</strong></p></ng-template>
+		<ng-template #elseBlock><p>Разница: <strong style="color: red">{{ diff }}</strong></p></ng-template>
+  </mat-card-content>
+</mat-card>
